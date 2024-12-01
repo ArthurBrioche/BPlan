@@ -484,7 +484,7 @@
                 <!-- Birth Positions Section -->
                 <div class="section">
                     <div class="section-title gray-bg">Birth Positions</div>
-                    <div class="dense-checkboxes">
+                    <div class="dense-checkboxes" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
                         <div class="checkbox-group">
                             <input type="checkbox" id="squatting"><label for="squatting">Squatting</label>
                         </div>
@@ -503,7 +503,14 @@
                         <div class="checkbox-group">
                             <input type="checkbox" id="pool"><label for="pool">Pool/tub</label>
                         </div>
-                        <div class="other-field">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="birth-stool"><label for="birth-stool">Birth stool</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="standing"><label for="standing">Standing</label>
+                        </div>
+                        <!-- Other field spans both columns -->
+                        <div class="other-field" style="grid-column: 1 / -1;">
                             <label>Other positions:</label>
                             <input type="text">
                         </div>
@@ -613,7 +620,10 @@
                             <input type="checkbox" id="own-clothes"><label for="own-clothes">Wear own clothes</label>
                         </div>
                         <div class="checkbox-group">
-                            <input type="checkbox" id="limited-staff"><label for="limited-staff">Limited staff</label>
+                            <input type="checkbox" id="limited-staff"><label for="limited-staff">Limited staff, no student/intern </label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="minimal-cervical"><label for="minimal-cervical">As few cervical exams as possible</label>
                         </div>
                         <div class="other-field">
                             <label>Other environmental preferences:</label>
@@ -626,19 +636,26 @@
                 <div class="section">
                     <div class="section-title">Delivery Preferences</div>
                     <div class="dense-checkboxes">
-                        <div class="checkbox-group">
-                            <input type="checkbox" id="vaginal"><label for="vaginal">Vaginal birth</label>
-                        </div>
-                        <div class="checkbox-group">
-                            <input type="checkbox" id="water"><label for="water">Water birth</label>
-                        </div>
-                        <div class="checkbox-group">
-                            <input type="checkbox" id="vbac"><label for="vbac">VBAC</label>
-                        </div>
-                        <div class="checkbox-group">
-                            <input type="checkbox" id="csection"><label for="csection">C-section if needed</label>
+                        <!-- Main delivery options in 2 columns -->
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="vaginal"><label for="vaginal">Vaginal birth</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="water"><label for="water">Water birth</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="home"><label for="home">Home birth</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="vbac"><label for="vbac">VBAC</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="csection"><label for="csection">C-section</label>
+                            </div>
                         </div>
 
+                        <!-- Rest of the subsections continue in single column -->
                         <div class="subsection-title">Pain Relief During 2nd Stage</div>
                         <div class="checkbox-group">
                             <input type="checkbox" id="no-offer-2nd"><label for="no-offer-2nd">Please don't offer pain medication/epidural</label>
@@ -701,15 +718,33 @@
                 <div class="section">
                     <div class="section-title">After Birth</div>
                     <div class="dense-checkboxes">
+                        <!-- Immediately after subsection -->
+                        <div class="subsection-title">Immediately after</div>
                         <div class="checkbox-group">
-                            <input type="checkbox" id="skin-to-skin"><label for="skin-to-skin">Skin-to-skin contact</label>
+                            <input type="checkbox" id="skin-to-skin"><label for="skin-to-skin">Skin-to-skin contact with mother</label>
                         </div>
                         <div class="checkbox-group">
-                            <input type="checkbox" id="delayed-cord"><label for="delayed-cord">Delayed cord clamping</label>
+                            <input type="checkbox" id="hand-to-partner"><label for="hand-to-partner">Hand baby to partner</label>
                         </div>
                         <div class="checkbox-group">
-                            <input type="checkbox" id="immediate-feed"><label for="immediate-feed">Immediate feeding</label>
+                            <input type="checkbox" id="wipe-first"><label for="wipe-first">Wipe baby down first</label>
                         </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="no-wipe"><label for="no-wipe">Don't wipe baby down</label>
+                        </div>
+
+                        <!-- Umbilical cord subsection -->
+                        <div class="subsection-title">Umbilical cord</div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="delayed-cord"><label for="delayed-cord">Delayed clamping</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="partner-cut"><label for="partner-cut">Cut by partner</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="staff-cut"><label for="staff-cut">Cut by staff</label>
+                        </div>
+
                         <div class="other-field">
                             <label>Other after birth preferences:</label>
                             <input type="text">
@@ -793,6 +828,30 @@
                             <input type="text">
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <!-- Additional Preferences Section -->
+        <div class="section">
+            <div class="section-title">Additional Preferences</div>
+            <div class="dense-checkboxes">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="no-separate"><label for="no-separate">Do not separate baby and mother</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="delay-checks"><label for="delay-checks">If baby is breathing, delay all newborn checks</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="minimal-handling"><label for="minimal-handling">Minimal staff handling baby</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="with-parents"><label for="with-parents">Baby is with mom or partner at all times</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="no-bathe"><label for="no-bathe">Please do not bathe baby</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="partner-shower"><label for="partner-shower">Baby will stay with partner while mom showers</label>
                 </div>
             </div>
         </div>
