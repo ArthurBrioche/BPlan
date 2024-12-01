@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birth Preferences Form</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            line-height: 1.4;
+            background: #f5f5f5;
+            padding: 20px;
+            font-size: 15px;
+            color: #333;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .page {
+            background: white;
+            width: 210mm;
+            height: 297mm;
+            margin: 0 auto;
+            padding: 10mm;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            page-break-after: always;
+        }
+
+        .two-columns {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+
+        .section {
+            border: 1px solid #e1e1e1;
+            border-radius: 6px;
+            padding: 6px;
+            margin-bottom: 6px;
+            background: #ffffff;
+            transition: all 0.2s ease;
+        }
+
+        .section:hover {
+            border-color: #d1d1d1;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .section-title {
+            background: #E8D7D1;
+            padding: 3px 6px;
+            margin: -6px -6px 8px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-radius: 5px 5px 0 0;
+            color: #444;
+        }
+
+        .gray-bg {
+            background: #D9D5CC;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 3px 4px;
+            border: none;
+            border-bottom: 1.5px solid #e1e1e1;
+            margin-bottom: 8px;
+            height: 24px;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            transition: border-color 0.2s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-bottom-color: #999;
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 3px;
+            min-height: 18px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 14px;
+            height: 14px;
+            accent-color: #666;
+        }
+
+        .checkbox-group label {
+            font-size: 13px;
+            color: #444;
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 8px;
+            border: 1.5px solid #e1e1e1;
+            border-radius: 4px;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            resize: none;
+            transition: border-color 0.2s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #999;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 24px;
+            font-weight: 300;
+            color: #333;
+            letter-spacing: -0.5px;
+        }
+
+        .print-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 8px 16px;
+            background: #2c5282;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .print-button:hover {
+            background: #2a4365;
+        }
+
+        .subsection-title {
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 4px;
+            padding: 1px 6px;
+            background: #f5f5f5;
+            display: inline-block;
+            border-radius: 3px;
+            color: #444;
+            letter-spacing: 0.3px;
+        }
+
+        label {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 2px;
+            display: block;
+        }
+
+        @media print {
+            body {
+                padding: 0;
+                background: none;
+            }
+            .page {
+                box-shadow: none;
+                margin: 0;
+            }
+            .print-button {
+                display: none;
+            }
+            .section:hover {
+                box-shadow: none;
+                border-color: #e1e1e1;
+            }
+        }
+
+        /* Enhanced spacing utilities */
+        .mb-2 {
+            margin-bottom: 8px;
+        }
+
+        .mb-4 {
+            margin-bottom: 16px;
+        }
+
+        /* Add subtle dividers between sections */
+        .section + .section {
+            border-top: 1px solid #f5f5f5;
+            padding-top: 12px;
+        }
+
+        /* Add new style for full-width notes section */
+        .full-width-section {
+            grid-column: 1 / -1;
+            margin-top: 20px;
+        }
+        
+        /* Increase notes textarea height */
+        .notes-textarea {
+            height: 180px;
+        }
+
+        /* Add new utility class for denser checkbox groups */
+        .dense-checkboxes .checkbox-group {
+            margin-bottom: 1px;
+            min-height: 15px;
+        }
+
+        /* Optimize spacing for dense content */
+        .dense-checkboxes {
+            margin-top: -2px;
+        }
+
+        /* Adjust section margins for better fit */
+        .section {
+            margin-bottom: 6px;
+            padding: 6px;
+        }
+
+        .section-title {
+            margin: -6px -6px 8px;
+        }
+
+        /* Optimize notes section height */
+        .notes-textarea {
+            height: 200px;
+        }
+
+        /* Adjust page padding */
+        .page {
+            padding: 10mm;
+        }
+
+        /* Add max-height to scrollable sections if needed */
+        .scrollable-section {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        /* Ensure proper page breaks */
+        @media print {
+            .page {
+                page-break-after: always;
+                page-break-inside: avoid;
+            }
+        }
+
+        .other-field {
+            margin-top: 8px;
+            padding-top: 4px;
+            border-top: 1px dashed #eee;
+        }
+        
+        .other-field label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 2px;
+        }
+        
+        .other-field input[type="text"] {
+            margin-bottom: 0;
+            height: 22px;
+        }
+
+        /* Add these optimized page settings */
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        /* Update print media query */
+        @media print {
+            html, body {
+                width: 210mm;
+                height: 297mm;
+                margin: 0;
+                padding: 0;
+            }
+            
+            .page {
+                margin: 0;
+                border: none;
+                border-radius: 0;
+                width: 210mm;
+                min-height: 297mm;
+                box-shadow: none;
+                background: white;
+                page-break-after: always;
+            }
+            
+            .export-buttons {
+                display: none !important;
+            }
+
+            /* Ensure backgrounds and colors are printed */
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+        }
+    </style>
+    <!-- Add html2pdf.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <script>
+        function exportToPDF() {
+            const opt = {
+                margin: 0,
+                filename: 'birth-preferences.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 2,
+                    useCORS: true,
+                    letterRendering: true,
+                    width: 794, // A4 width in pixels at 96 DPI
+                    height: 1123, // A4 height in pixels at 96 DPI
+                    backgroundColor: '#ffffff'
+                },
+                jsPDF: { 
+                    unit: 'mm',
+                    format: 'a4',
+                    orientation: 'portrait'
+                }
+            };
+
+            // Hide export buttons during export
+            const exportButtons = document.querySelector('.export-buttons');
+            exportButtons.style.display = 'none';
+
+            // Generate PDF
+            html2pdf()
+                .set(opt)
+                .from(document.querySelector('.page'))
+                .save()
+                .then(() => {
+                    exportButtons.style.display = 'flex';
+                })
+                .catch(err => {
+                    console.error('PDF generation failed:', err);
+                    alert('Failed to generate PDF. Please try again.');
+                    exportButtons.style.display = 'flex';
+                });
+        }
+
+        async function exportToFillablePDF() {
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({
+                    format: 'a4',
+                    unit: 'mm',
+                    orientation: 'portrait'
+                });
+
+                // Hide the export buttons during export
+                const exportButtons = document.querySelector('.export-buttons');
+                exportButtons.style.display = 'none';
+
+                // Convert each page to canvas
+                const pages = document.querySelectorAll('.page');
+                
+                for (let i = 0; i < pages.length; i++) {
+                    if (i > 0) doc.addPage();
+
+                    const canvas = await html2canvas(pages[i], {
+                        scale: 2,
+                        useCORS: true,
+                        letterRendering: true,
+                        width: 794,
+                        height: 1123,
+                        backgroundColor: '#ffffff'
+                    });
+
+                    // Add background image
+                    const imgData = canvas.toDataURL('image/jpeg', 1.0);
+                    doc.addImage(imgData, 'JPEG', 0, 0, 210, 297);
+
+                    // Add form fields with proper positioning
+                    const inputs = pages[i].querySelectorAll('input[type="text"]');
+                    inputs.forEach(input => {
+                        const rect = input.getBoundingClientRect();
+                        const pageRect = pages[i].getBoundingClientRect();
+                        
+                        const x = (rect.left - pageRect.left) * (210 / pageRect.width);
+                        const y = (rect.top - pageRect.top) * (297 / pageRect.height);
+                        const width = rect.width * (210 / pageRect.width);
+                        const height = rect.height * (297 / pageRect.height);
+
+                        doc.addTextField({
+                            name: `text_${Math.random().toString(36)}`,
+                            x, y, width, height,
+                            borderStyle: 'underline',
+                            borderColor: '#999999'
+                        });
+                    });
+
+                    // Add checkboxes
+                    const checkboxes = pages[i].querySelectorAll('input[type="checkbox"]');
+                    checkboxes.forEach(checkbox => {
+                        const rect = checkbox.getBoundingClientRect();
+                        const pageRect = pages[i].getBoundingClientRect();
+                        
+                        const x = (rect.left - pageRect.left) * (210 / pageRect.width);
+                        const y = (rect.top - pageRect.top) * (297 / pageRect.height);
+                        const size = 5;
+
+                        doc.addCheckBox({
+                            name: `checkbox_${Math.random().toString(36)}`,
+                            x, y,
+                            width: size,
+                            height: size,
+                            appearance: 'off',
+                            borderStyle: 'solid',
+                            borderColor: '#000000'
+                        });
+                    });
+                }
+
+                // Save the PDF
+                doc.save('birth-preferences-fillable.pdf');
+                exportButtons.style.display = 'flex';
+            } catch (error) {
+                console.error('Error generating fillable PDF:', error);
+                alert('Failed to generate fillable PDF. Please try again.');
+                document.querySelector('.export-buttons').style.display = 'flex';
+            }
+        }
+    </script>
+
+    <!-- Add required libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+    <!-- First Page -->
+    <div class="page">
+        <h1>Birth Plan</h1>
+        
+        <div class="two-columns">
+            <!-- Left Column -->
+            <div>
+                <!-- Details Section -->
+                <div class="section">
+                    <div class="section-title">Details</div>
+                    <label>Name:</label>
+                    <input type="text">
+                    
+                    <label>Partner's name:</label>
+                    <input type="text">
+                    
+                    <label>Doctor/midwife:</label>
+                    <input type="text">
+                    
+                    <p>Baby's sex:</p>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="boy"><label for="boy">Boy</label>
+                        <input type="checkbox" id="girl"><label for="girl">Girl</label>
+                        <input type="checkbox" id="surprise"><label for="surprise">Surprise</label>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="first-birth"><label for="first-birth">First birth</label>
+                        <input type="checkbox" id="given-birth"><label for="given-birth">Given birth before</label>
+                    </div>
+                </div>
+
+                <!-- Birth Positions Section -->
+                <div class="section">
+                    <div class="section-title gray-bg">Birth Positions</div>
+                    <div class="dense-checkboxes">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="squatting"><label for="squatting">Squatting</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="side"><label for="side">On side</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="hands-knees"><label for="hands-knees">Hands and knees</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="in-bed"><label for="in-bed">In bed</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="birth-ball"><label for="birth-ball">Birth ball</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="pool"><label for="pool">Pool/tub</label>
+                        </div>
+                        <div class="other-field">
+                            <label>Other positions:</label>
+                            <input type="text">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pain Relief Section -->
+                <div class="section">
+                    <div class="section-title gray-bg">Pain Relief</div>
+                    <div class="dense-checkboxes">
+                        <div class="subsection-title">Medical</div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="epidural"><label for="epidural">Epidural</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="no-offer"><label for="no-offer">Please don't offer pain medication</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="no-iv"><label for="no-iv">No IV</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="tens"><label for="tens">TENS</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="nitrous"><label for="nitrous">Nitrous oxide</label>
+                        </div>
+                        <div class="other-field">
+                            <label>Other medical pain relief:</label>
+                            <input type="text">
+                        </div>
+                        
+                        <div class="subsection-title">Natural</div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="bath"><label for="bath">Bath/shower</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="breathing"><label for="breathing">Breathing exercises</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="hypnobirthing"><label for="hypnobirthing">Hypnobirthing</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="massage"><label for="massage">Massage</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="pethidine"><label for="pethidine">Pethidine</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="aromatherapy"><label for="aromatherapy">Aromatherapy</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="movement"><label for="movement">Movement</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="affirmations"><label for="affirmations">Positive affirmations</label>
+                        </div>
+                        <div class="other-field">
+                            <label>Other natural methods:</label>
+                            <input type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div>
+                <!-- Health Information Section -->
+                <div class="section">
+                    <div class="section-title gray-bg">Health Information</div>
+                    <div class="dense-checkboxes">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="gbs"><label for="gbs">Group B strep</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="gd"><label for="gd">Gestational diabetes</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="herpes"><label for="herpes">Herpes</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="rh"><label for="rh">RH incompatible</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="allergies"><label for="allergies">Allergies</label>
+                        </div>
+                        <div class="other-field">
+                            <label>Other health conditions:</label>
+                            <input type="text">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Environment Section -->
+                <div class="section">
+                    <div class="section-title">Environment</div>
+                    <div class="dense-checkboxes">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="dim-lights"><label for="dim-lights">Dim lights/natural lighting</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="music"><label for="music">Calming music/sounds</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="minimal-interruptions"><label for="minimal-interruptions">Minimal interruptions</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="own-clothes"><label for="own-clothes">Wear own clothes</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="limited-staff"><label for="limited-staff">Limited staff</label>
+                        </div>
+                        <div class="other-field">
+                            <label>Other environmental preferences:</label>
+                            <input type="text">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Delivery Section -->
+                <div class="section">
+                    <div class="section-title">Delivery Preferences</div>
+                    <div class="dense-checkboxes">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="vaginal"><label for="vaginal">Vaginal birth</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="water"><label for="water">Water birth</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="vbac"><label for="vbac">VBAC</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="csection"><label for="csection">C-section if needed</label>
+                        </div>
+
+                        <div class="subsection-title">Pain Relief During 2nd Stage</div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="no-offer-2nd"><label for="no-offer-2nd">Please don't offer pain medication/epidural</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="no-iv-2nd"><label for="no-iv-2nd">No IV</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="open-epidural"><label for="open-epidural">I'm open to an epidural</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="open-nitrous"><label for="open-nitrous">I'm open to nitrous oxide</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="open-pethidine"><label for="open-pethidine">I'm open to pethidine</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="open-tens"><label for="open-tens">I'm open to TENS</label>
+                        </div>
+
+                        <div class="subsection-title">Induction</div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="natural-break"><label for="natural-break">Prefer water to break on its own</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="no-induction"><label for="no-induction">No induction unless medically necessary</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="natural-methods"><label for="natural-methods">If necessary, try natural methods first</label>
+                        </div>
+                        <div class="subsection-title">Pushing/Tearing</div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="breathe-down"><label for="breathe-down">Breathe baby down</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="coached-pushing"><label for="coached-pushing">Be coached through pushing</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="natural-tear"><label for="natural-tear">Tear naturally if possible</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="no-forceps"><label for="no-forceps">No forceps or vacuum</label>
+                        </div>
+                        <div class="other-field">
+                            <label>Other delivery preferences:</label>
+                            <input type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Second Page -->
+    <div class="page">
+        <div class="two-columns">
+            <!-- Left Column -->
+            <div>
+                <!-- After Birth Section -->
+                <div class="section">
+                    <div class="section-title">After Birth</div>
+                    <div class="dense-checkboxes">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="skin-to-skin"><label for="skin-to-skin">Skin-to-skin contact</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="delayed-cord"><label for="delayed-cord">Delayed cord clamping</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="immediate-feed"><label for="immediate-feed">Immediate feeding</label>
+                        </div>
+                        <div class="other-field">
+                            <label>Other after birth preferences:</label>
+                            <input type="text">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feeding Section -->
+                <div class="section">
+                    <div class="section-title gray-bg">Feeding</div>
+                    <div class="dense-checkboxes">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="breastfeed"><label for="breastfeed">Breastfeed</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="bottle"><label for="bottle">Bottle feed</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="lactation"><label for="lactation">Lactation consultant</label>
+                        </div>
+                        <div class="other-field">
+                            <label>Other feeding preferences:</label>
+                            <input type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div>
+                <!-- Cesarean Preferences -->
+                <div class="section">
+                    <div class="section-title gray-bg">If Cesarean Needed</div>
+                    <div class="dense-checkboxes">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="gentle-cs"><label for="gentle-cs">Gentle cesarean</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="epidural-cs"><label for="epidural-cs">Epidural to be administered</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="no-isolation"><label for="no-isolation">Avoid isolation if possible</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="drape-remain"><label for="drape-remain">The drape should remain in place</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="immediate-skin"><label for="immediate-skin">Immediate skin-to-skin contact</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="partner-baby"><label for="partner-baby">Hand baby to partner if mum is not able</label>
+                        </div>
+                        <div class="other-field">
+                            <label>Other cesarean preferences:</label>
+                            <input type="text">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Medical Interventions -->
+                <div class="section">
+                    <div class="section-title">Medical Interventions</div>
+                    <div class="dense-checkboxes">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="vitamin-k"><label for="vitamin-k">Vitamin K</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="hep-b"><label for="hep-b">Hep B vaccine</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="eye-drops"><label for="eye-drops">Eye drops</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="no-meds"><label for="no-meds">No medications</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="as-advised"><label for="as-advised">As advised by midwife</label>
+                        </div>
+                        <div class="other-field">
+                            <label>Other medical interventions:</label>
+                            <input type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Notes Section -->
+        <div class="section full-width-section">
+            <div class="section-title">Additional Notes</div>
+            <textarea class="notes-textarea" placeholder="Additional preferences or special instructions..."></textarea>
+        </div>
+    </div>
+
+    <button onclick="printDocument()" class="print-button">Export as PDF</button>
+
+    <script>
+        function printDocument() {
+            // Create filename with current date
+            const today = new Date();
+            const date = today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+            document.title = `Birth Plan ${date}`;
+            
+            window.print();
+        }
+    </script>
+</body>
+</html> 
